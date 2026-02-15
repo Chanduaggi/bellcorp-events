@@ -1,6 +1,7 @@
 Bellcorp Events - Event Management Application
 
 A full-stack MERN application for discovering and managing event registrations.
+
 🚀 Tech Stack
 
 Frontend: React.js, React Router, Axios
@@ -17,6 +18,7 @@ Cancel registrations
 Responsive design
 
 📦 Installation
+
 Backend Setup
 bashcd server
 npm install
@@ -29,4 +31,3 @@ Frontend Setup
 bashcd client
 npm install
 npm start
-
