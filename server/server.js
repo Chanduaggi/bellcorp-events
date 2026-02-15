@@ -15,10 +15,17 @@ connectDB();
 const app = express();
 
 // Middleware
+
+
 app.use(cors({
-  origin: "https://bellcorp-events-three.vercel.app/",
+  origin: [
+    "https://bellcorp-events-93yihbvy2-chandus-projects-504534de.vercel.app",
+    "https://bellcorp-events-three.vercel.app"
+  ],
   credentials: true
 }));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
