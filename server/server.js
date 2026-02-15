@@ -18,11 +18,8 @@ const app = express();
 
 
 app.use(cors({
-  origin: [
-    "https://bellcorp-events-93yihbvy2-chandus-projects-504534de.vercel.app",
-    "https://bellcorp-events-three.vercel.app"
-  ],
-  credentials: true
+  origin: "*"
+  
 }));
 
 
