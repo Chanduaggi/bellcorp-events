@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { eventsAPI } from '../utils/api';
 import EventCard from '../components/EventCard';
 import { toast } from 'react-toastify';
@@ -19,16 +19,7 @@ const Events = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetchCategories();
-    fetchLocations();
-  }, []);
-
-  useEffect(() => {
-    fetchEvents();
-  }, [search, selectedCategory, selectedLocation, currentPage]);
-
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     setLoading(true);
     try {
       const params = {
@@ -48,7 +39,16 @@ const Events = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, search, selectedCategory, selectedLocation]);
+
+  useEffect(() => {
+    fetchCategories();
+    fetchLocations();
+  }, []);
+
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
 
   const fetchCategories = async () => {
     try {

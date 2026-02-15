@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { eventsAPI, registrationsAPI } from '../utils/api';
@@ -15,14 +15,7 @@ const EventDetails = () => {
   const [isRegistered, setIsRegistered] = useState(false);
   const [registering, setRegistering] = useState(false);
 
-  useEffect(() => {
-    fetchEventDetails();
-    if (user) {
-      checkRegistration();
-    }
-  }, [id, user]);
-
-  const fetchEventDetails = async () => {
+  const fetchEventDetails = useCallback(async () => {
     try {
       const response = await eventsAPI.getEventById(id);
       setEvent(response.data);
@@ -32,16 +25,23 @@ const EventDetails = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, navigate]);
 
-  const checkRegistration = async () => {
+  const checkRegistration = useCallback(async () => {
     try {
       const response = await registrationsAPI.checkRegistration(id);
       setIsRegistered(response.data.isRegistered);
     } catch (error) {
       console.error('Failed to check registration');
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchEventDetails();
+    if (user) {
+      checkRegistration();
+    }
+  }, [fetchEventDetails, checkRegistration, user]);
 
   const handleRegister = async () => {
     if (!user) {
